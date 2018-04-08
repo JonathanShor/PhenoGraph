@@ -64,7 +64,7 @@ def cluster(data, k=30, directed=False, prune=False, min_cluster_size=10, jaccar
     """
 
     # NB if prune=True, graph must be undirected, and the prune setting takes precedence
-    if prune:
+    if prune and directed:
         logging.warn("Setting directed=False because prune=True")
         directed = False
 
