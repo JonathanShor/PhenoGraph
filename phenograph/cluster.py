@@ -33,7 +33,7 @@ def sort_by_size(clusters, min_size):
 
 def cluster(data, k=30, directed=False, prune=False, min_cluster_size=10, jaccard=True,
             primary_metric='euclidean', n_jobs=-1, q_tol=1e-3, louvain_time_limit=2000,
-            nn_method='kdtree'):
+            nn_method='kdtree', verbosity=2):
     """
     PhenoGraph clustering
 
@@ -59,11 +59,15 @@ def cluster(data, k=30, directed=False, prune=False, min_cluster_size=10, jaccar
         the best result so far is returned
     :param nn_method: Whether to use brute force or kdtree for nearest neighbor search. For very large high-dimensional
         data sets, brute force (with parallel computation) performs faster than kdtree.
+    :param verbosity: How much text output to produce. Higher values produce more output. Zero
+        should silence all output including warnings, so use with caution.
 
     :return communities: numpy integer array of community assignments for each row in data
     :return graph: numpy sparse array of the graph that was used for clustering
     :return Q: the modularity score for communities on graph
     """
+
+    logger.setLevel(max([logging.ERROR - verbosity * 10, logging.DEBUG]))
 
     # NB if prune=True, graph must be undirected, and the prune setting takes precedence
     if prune and directed:
