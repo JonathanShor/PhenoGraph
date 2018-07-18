@@ -6,11 +6,13 @@ from itertools import repeat
 from scipy import sparse as sp
 import subprocess
 import time
-import logging
 import re
 import os
 import sys
 from .bruteforce_nn import knnsearch
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 def find_neighbors(data, k=30, metric='minkowski', p=2, method='brute', n_jobs=-1):
@@ -41,7 +43,7 @@ def find_neighbors(data, k=30, metric='minkowski', p=2, method='brute', n_jobs=-
     else:
         algorithm = "auto"
 
-    logging.info("Finding {} nearest neighbors using {} metric and '{}' algorithm".format(
+    logger.info("Finding {} nearest neighbors using {} metric and '{}' algorithm".format(
         k, metric, algorithm))
     if method == 'kdtree':
         nbrs = NearestNeighbors(n_neighbors=k+1,        # k+1 because results include self
@@ -174,7 +176,7 @@ def graph2binary(filename, graph):
     # write to file (NB f.writelines is ~10x faster than np.tofile(f))
     with open(filename + '.bin', 'w+b') as f:
         f.writelines([e for t in zip(ij, s) for e in t])
-    logging.info("Wrote graph to binary file in {} seconds".format(time.time() - tic))
+    logger.info("Wrote graph to binary file in {} seconds".format(time.time() - tic))
 
 
 def runlouvain(filename, max_runs=100, time_limit=2000, tol=1e-3):
@@ -201,7 +203,7 @@ def runlouvain(filename, max_runs=100, time_limit=2000, tol=1e-3):
             q.append(line.split(sep=" ")[-1])
         return list(map(float, q))
 
-    logging.info('Running Louvain modularity optimization')
+    logger.info('Running Louvain modularity optimization')
 
     # Use package location to find Louvain code
     # lpath = os.path.abspath(resource_filename(Requirement.parse("PhenoGraph"), 'louvain'))
@@ -209,7 +211,7 @@ def runlouvain(filename, max_runs=100, time_limit=2000, tol=1e-3):
     try:
         assert os.path.isdir(lpath)
     except AssertionError:
-        logging.warn("Could not find Louvain code, tried: {}".format(lpath))
+        logger.warning("Could not find Louvain code, tried: {}".format(lpath))
 
     # Determine if we're using Windows, Mac, or Linux
     if sys.platform == "win32" or sys.platform == "cygwin":
@@ -287,8 +289,8 @@ def runlouvain(filename, max_runs=100, time_limit=2000, tol=1e-3):
 
             communities = hierarchy[:, nlevels-1]
 
-            logging.info("After {} runs, maximum modularity is Q = {}".format(run, Q))
+            logger.info("After {} runs, maximum modularity is Q = {}".format(run, Q))
 
-    logging.info("Louvain completed {} runs in {} seconds".format(run, time.time() - tic))
+    logger.info("Louvain completed {} runs in {} seconds".format(run, time.time() - tic))
 
     return communities, Q
