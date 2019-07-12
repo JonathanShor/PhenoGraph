@@ -18,7 +18,7 @@ To install PhenoGraph, simply run the setup script:
 
 Or use:
 
-    pip3 install git+https://github.com/jacoblevine/phenograph.git
+    pip3 install git+https://github.com/jonathanshor/phenograph.git
 
 
 Expected use is within a script or interactive kernel running Python `3.x`. Data are expected to be passed as a `numpy.ndarray`.
@@ -52,6 +52,10 @@ If you use PhenoGraph in work you publish, please cite our publication:
 
 Release Notes
 -------------
+
+### Version 1.6
+
+* Improve logging and reporting to allow better user control.
 
 ### Version 1.5.2
 

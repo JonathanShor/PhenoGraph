@@ -8,7 +8,7 @@ if sys.version_info.major != 3:
 setup(
     name="PhenoGraph",
     description="Graph-based clustering for high-dimensional single-cell data",
-    version="1.5.2",
+    version="1.6",
     author="Jacob Levine",
     author_email="jl3545@columbia.edu",
     packages=find_packages(),
@@ -17,7 +17,7 @@ setup(
     },
     include_package_data=True,
     zip_safe=False,
-    url="https://github.com/jacoblevine/PhenoGraph",
+    url="https://github.com/JonathanShor/PhenoGraph",
     license="LICENSE",
     long_description=open("README.md").read(),
     install_requires=open("requirements.txt").read()
