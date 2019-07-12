@@ -53,6 +53,10 @@ If you use PhenoGraph in work you publish, please cite our publication:
 Release Notes
 -------------
 
+### Version 1.6
+
+* Improve logging and reporting. New `verbosity` parameter to control granularity of info reported.
+
 ### Version 1.5.2
 
  * Include simple parallel implementation of brute force nearest neighbors search using scipy's `cdist` and `multiprocessing`. This may be more efficient than `kdtree` on very large high-dimensional data sets
